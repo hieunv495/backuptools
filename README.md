@@ -1,4 +1,12 @@
-# Install
+# backup-tools
+
+## Install
+
+Doing
+
+## Development
+
+### Prerequisites
 
 ```
 pip3 install virtualenv
@@ -6,7 +14,7 @@ virtualenv .env
 source .env/bin/activate
 ```
 
-# Install packages
+#### Install packages
 
 ```
 pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
@@ -14,4 +22,10 @@ pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-
 
 ```
 pip install requirements.txt
+```
+
+### Test
+
+```
+./test.sh
 ```

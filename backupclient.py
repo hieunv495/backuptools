@@ -24,15 +24,12 @@ class BackupClient:
               'https://www.googleapis.com/auth/drive.file',
               'https://www.googleapis.com/auth/drive.metadata']
 
-    service = None
-    driver_client = GoogleDriverClient()
-    driver_root_folder_name = None
-    local_root_folder_path = None
-
-    def __init__(self, credentials_path: str = None, driver_root_folder_name: str = None, local_root_folder_path: str = None):
+    def __init__(self, credentials_path: str = None, driver_root_folder_name: str = None, local_root_folder_path: str = None, root_id: str = None):
+        self.driver_client = GoogleDriverClient(root_id=root_id)
         self.driver_client.connect(credentials_path)
         self.driver_root_folder_name = driver_root_folder_name
         self.local_root_folder_name = local_root_folder_path
+        self.service = None
 
     def get_root_folder(self) -> Optional[FileMeta]:
         return self.driver_client.get_file_by_name(self.driver_root_folder_name)

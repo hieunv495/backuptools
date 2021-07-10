@@ -1,4 +1,5 @@
 import unittest
+from test import ROOT_ID
 
 from backupclient import BackupClient
 
@@ -6,7 +7,13 @@ from backupclient import BackupClient
 class TestBackupClient(unittest.TestCase):
 
     client = BackupClient(
-        credentials_path='credentials.json', driver_root_folder_name='test', local_root_folder_path="/data/backups_test")
+        credentials_path='credentials.json', driver_root_folder_name='backups', local_root_folder_path="/data/backups_test", root_id=ROOT_ID)
+
+    def setUp(self):
+        self.client.driver_client.get_or_create_folder_by_path('backups')
+        self.client.driver_client.get_or_create_folder_by_path(
+            'backups/app1/resource1')
+        self.client.driver_client.get_or_create_folder_by_path('backups/app2')
 
     def test_get_root_folder(self):
         file = self.client.get_root_folder()

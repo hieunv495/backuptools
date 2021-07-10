@@ -28,12 +28,16 @@ class GoogleDriverClient:
 
     service = None
 
+    def __init__(self, root_id: str = None):
+        self.root_id = root_id
+
     def connect(self, credentials_path: str):
         creds = service_account.Credentials.from_service_account_file(
             credentials_path)
         self.service = build('drive', 'v3', credentials=creds)
 
     def get_list_file(self, parent_id: str = None, file_fields: str = 'id,name,size') -> List[FileMeta]:
+        parent_id = parent_id or self.root_id
         q = ''
         if parent_id is not None:
             q = "'{0}' in parents".format(parent_id)
@@ -59,6 +63,8 @@ class GoogleDriverClient:
 
     def get_file_by_name(self, name: str, parent_id: Optional[str] = None) -> Union[FileMeta, None]:
 
+        parent_id = parent_id or self.root_id
+
         if parent_id:
             if self.get_file_by_id(parent_id) is None:
                 raise ParentNotFoundException()
@@ -81,9 +87,19 @@ class GoogleDriverClient:
         else:
             return None
 
-    def get_file_by_path(self, path: str) -> Union[FileMeta, None]:
+    def get_file_by_path(self, path: str, parent_id: Optional[str] = None) -> Union[FileMeta, None]:
+
+        parent_id = parent_id or self.root_id
+
+        parent: Optional[FileMeta] = None
+
+        if parent_id:
+            parent = self.get_file_by_id(parent_id)
+            if parent is None:
+                raise ParentNotFoundException()
+
         bits = path.split('/')
-        current_file: Optional[FileMeta] = None
+        current_file: Optional[FileMeta] = parent
         for name in bits:
             current_file = self.get_file_by_name(
                 name, parent_id=current_file['id'] if current_file is not None else None)
@@ -144,6 +160,8 @@ class GoogleDriverClient:
 
     def create_folder_by_name(self, name: str, parent_id: Optional[str] = None) -> Union[FileMeta, None]:
 
+        parent_id = parent_id or self.root_id
+
         exist_folder = self.get_file_by_name(name, parent_id=parent_id)
         if exist_folder is not None:
             raise FileExistedException()
@@ -160,7 +178,10 @@ class GoogleDriverClient:
 
     def create_folder_by_path(self, path: str, auto_create_parents: bool = True) -> Union[FileMeta, None]:
         names = path.split('/')
-        current_folder: FileMeta = None
+        current_folder: FileMeta = self.get_file_by_id(self.root_id)
+        if current_folder is None:
+            raise FileNotFoundException(
+                'Root folder not found "{0}"'.format(self.root_id))
         path_len = len(names)
         for index, name in enumerate(names):
             current_folder_id = current_folder['id'] if current_folder is not None else None
@@ -194,21 +215,47 @@ class GoogleDriverClient:
         else:
             return self.create_folder_by_path(path, auto_create_parents=auto_create_parents)
 
-    def upload_file(self, local_file_path: str = None, drive_folder_path: str = None, drive_file_name: Optional[str] = None) -> Union[FileMeta, None]:
+    def upload_file(self, local_file_path: str = None, drive_folder_path: str = None, drive_folder_id: str = None, drive_file_name: Optional[str] = None) -> Union[FileMeta, None]:
+
+        if drive_folder_id is None and drive_folder_path is None:
+            raise Exception(
+                'One of driver_folder_path or driver_folder_id must provided')
+
+        if drive_folder_id is not None and drive_folder_path is not None:
+            raise Exception(
+                'Can only choose one of "driver_folder_path" or "driver_folder_id"')
 
         file_name = drive_file_name or path.basename(local_file_path)
 
-        file_drive_path = path.join(drive_folder_path, file_name)
+        drive_folder: FileMeta = None
 
-        exist_folder = self.get_file_by_path(file_drive_path)
-        if exist_folder is not None:
-            raise FileExistedException()
+        if drive_folder_path is not None:
+            file_drive_path = path.join(drive_folder_path, file_name)
 
-        container_folder = self.get_or_create_folder_by_path(drive_folder_path)
+            exist_folder = self.get_file_by_path(file_drive_path)
+            if exist_folder is not None:
+                raise FileExistedException()
+
+            drive_folder = self.get_or_create_folder_by_path(
+                drive_folder_path)
+
+        elif drive_folder_id:
+
+            exist_folder = self.get_file_by_name(
+                file_name, parent_id=drive_folder_id)
+            if exist_folder is not None:
+                raise FileExistedException()
+
+            drive_folder = self.get_file_by_id(
+                drive_folder_id)
+
+            if drive_folder is None:
+                raise FileNotFoundException(
+                    'Drive folder not found by folder id "{0}"'.format(drive_folder_id))
 
         file_metadata = {
             'name': file_name,
-            'parents': [container_folder['id']]
+            'parents': [drive_folder['id']]
         }
 
         mimetype = magic.from_file(local_file_path, mime=True)

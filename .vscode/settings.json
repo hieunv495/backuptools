@@ -1,4 +1,7 @@
 {
-  "cSpell.words": ["creds"],
+  "cSpell.words": [
+    "creds",
+    "urandom"
+  ],
   "python.pythonPath": "./env/bin/python"
 }

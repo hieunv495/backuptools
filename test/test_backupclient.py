@@ -1,3 +1,5 @@
+import os
+import tarfile
 import unittest
 from test import ROOT_ID
 
@@ -52,5 +54,13 @@ class TestBackupClient(unittest.TestCase):
     def test_download_backup(self):
         pass
 
-# if __name__ == '__main__':
-#     unittest.main(verbosity=2)
+    def test_tar(self):
+        file_path = os.path.abspath('./downloads.tar.gz')
+        # source_path = os.path.abspath('./downloads/')
+        source_path = './downloads'
+        print(file_path)
+        print(source_path)
+        print(os.path.basename(source_path))
+
+        with tarfile.open(file_path, 'w:gz') as tar:
+            tar.add(source_path, arcname=os.path.basename(source_path))

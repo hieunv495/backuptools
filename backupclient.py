@@ -19,11 +19,6 @@ https://developers.google.com/resources/api-libraries/documentation/drive/v3/pyt
 
 class BackupClient:
 
-    SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly',
-              'https://www.googleapis.com/auth/drive',
-              'https://www.googleapis.com/auth/drive.file',
-              'https://www.googleapis.com/auth/drive.metadata']
-
     def __init__(self, credentials_path: str = None, driver_root_folder_name: str = None, local_root_folder_path: str = None, root_id: str = None):
         self.driver_client = GoogleDriverClient(root_id=root_id)
         self.driver_client.connect(credentials_path)
@@ -65,9 +60,11 @@ class BackupClient:
         return self.driver_client.get_file_by_name(
             backup_version, parent_id=resource_folder['id'])
 
+    def upload_backup(self, app_name: str, resource_name: str, backup_version: str, local_file_path: str) -> str:
+
+        self.driver_client.upload_file(
+            local_file_path=local_file_path, drive_folder_path=None, drive_file_name=backup_version)
+
     def download_backup(self, app_name: str, resource_name: str, backup_version: str) -> str:
         # check or create resource folder
-        pass
-
-    def upload_backup(self, app_name: str, resource_name: str, backup_version: str) -> str:
         pass

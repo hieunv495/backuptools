@@ -36,7 +36,24 @@ class GoogleDriverClient:
             credentials_path)
         self.service = build('drive', 'v3', credentials=creds)
 
-    def get_list_file(self, parent_id: str = None, file_fields: str = 'id,name,size') -> List[FileMeta]:
+    def get_list_file(self, parent_id: str = None, parent_path: str = None, file_fields: str = 'id,name,size') -> List[FileMeta]:
+
+        if parent_id is not None and parent_path is not None:
+            raise ValueError(
+                'Only one of "parent_id" or "parent_path" should be provided')
+
+        if parent_id is None and parent_path is None:
+            raise ValueError(
+                'One of "parent_id" or "parent_path" should be provided')
+
+        if parent_path is not None:
+            parent = self.get_file_by_path(parent_path)
+            if parent is None:
+                raise FileNotFoundException(
+                    'Parent path "{0}" not found'.format(parent_path))
+
+            parent_id = parent['id']
+
         parent_id = parent_id or self.root_id
         q = ''
         if parent_id is not None:

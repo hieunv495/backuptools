@@ -1,5 +1,7 @@
 # This project ignore
 tmp-files
+resources-test
+backups-test
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

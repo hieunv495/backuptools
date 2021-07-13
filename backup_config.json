@@ -6,7 +6,7 @@
       "type": "GoogleDriveBackupResource",
       "name": "test-app-mongo",
       "args": {
-        "local_source_path": "./resources-test/test-app/mongo",
+        "local_resource_path": "./resources-test/test-app/mongo",
         "local_backup_folder_path": "./backups-test/test-app/mongo",
         "drive_backup_folder_path": "backups/test-app/mongo"
       }

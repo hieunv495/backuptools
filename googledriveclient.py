@@ -3,6 +3,7 @@ from __future__ import print_function
 import io
 import os
 import pprint
+import traceback
 from os import path
 from typing import List, Optional, Union
 
@@ -19,7 +20,7 @@ https://developers.google.com/resources/api-libraries/documentation/drive/v3/pyt
 '''
 
 
-class GoogleDriverClient:
+class GoogleDriveClient:
 
     SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly',
               'https://www.googleapis.com/auth/drive',
@@ -27,6 +28,7 @@ class GoogleDriverClient:
               'https://www.googleapis.com/auth/drive.metadata']
 
     service = None
+    is_connected = False
 
     def __init__(self, root_id: str = None):
         self.root_id = root_id
@@ -34,7 +36,14 @@ class GoogleDriverClient:
     def connect(self, credentials_path: str):
         creds = service_account.Credentials.from_service_account_file(
             credentials_path)
+        # print('Connect')
+        # client = build("drive", "v3", credentials=creds)
+        # client._http.http.close()
+
         self.service = build('drive', 'v3', credentials=creds)
+        # print('Connect success')
+        # self.service._http.http.close()
+        self.is_connected = True
 
     def get_list_file(self, parent_id: str = None, parent_path: str = None, file_fields: str = 'id,name,size') -> List[FileMeta]:
 
@@ -42,16 +51,11 @@ class GoogleDriverClient:
             raise ValueError(
                 'Only one of "parent_id" or "parent_path" should be provided')
 
-        if parent_id is None and parent_path is None:
-            raise ValueError(
-                'One of "parent_id" or "parent_path" should be provided')
-
         if parent_path is not None:
             parent = self.get_file_by_path(parent_path)
             if parent is None:
                 raise FileNotFoundException(
                     'Parent path "{0}" not found'.format(parent_path))
-
             parent_id = parent['id']
 
         parent_id = parent_id or self.root_id
@@ -76,6 +80,7 @@ class GoogleDriverClient:
             }
             return file
         except Exception as e:
+            # traceback.print_exc()
             return None
 
     def get_file_by_name(self, name: str, parent_id: Optional[str] = None) -> Union[FileMeta, None]:
@@ -110,7 +115,7 @@ class GoogleDriverClient:
 
         parent: Optional[FileMeta] = None
 
-        if parent_id:
+        if parent_id is not None:
             parent = self.get_file_by_id(parent_id)
             if parent is None:
                 raise ParentNotFoundException()

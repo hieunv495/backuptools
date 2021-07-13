@@ -2,7 +2,7 @@ import unittest
 from os import path
 from test.utils import SandboxTextCase
 
-from googledriverclient import GoogleDriverClient
+from googledriveclient import GoogleDriveClient
 from type import (FileExistedException, FileMeta, FileNotFoundException,
                   ParentNotFoundException)
 

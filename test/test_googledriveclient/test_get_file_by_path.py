@@ -1,20 +1,24 @@
 import os
 import unittest
-from test import ROOT_ID
+from test import CREDENTIALS_PATH, ROOT_ID
 from test.utils import SandboxTextCase
 
-from googledriverclient import GoogleDriverClient
+from googledriveclient import GoogleDriveClient
 from type import (FileExistedException, FileMeta, FileNotFoundException,
                   ParentNotFoundException)
 
 
 class TestGetFileByPath(unittest.TestCase):
 
-    client = GoogleDriverClient(root_id=ROOT_ID)
+    client = GoogleDriveClient(root_id=ROOT_ID)
 
     def __init__(self, methodName):
         super().__init__(methodName)
-        self.client.connect('credentials.json')
+        self.client.connect(CREDENTIALS_PATH)
+
+    def tearDown(self):
+
+        self.client.service._http.http.close()
 
     def test_return_success(self):
         path = 'TestGetFileByPath_container/middle/child'

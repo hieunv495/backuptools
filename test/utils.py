@@ -2,10 +2,10 @@ import os
 import unittest
 from contextlib import contextmanager
 from os import path
-from test import ROOT_ID
+from test import CREDENTIALS_PATH, ROOT_ID
 from typing import Generator, Iterator, Optional
 
-from googledriverclient import GoogleDriverClient
+from googledriveclient import GoogleDriveClient
 from type import (FileExistedException, FileMeta, FileNotFoundException,
                   ParentNotFoundException)
 
@@ -14,7 +14,7 @@ class SandboxTextCase(unittest.TestCase):
 
     root_path = 'sanbox'
     base_container_name = 'sanbox-test-'
-    client = GoogleDriverClient(root_id=ROOT_ID)
+    client = GoogleDriveClient(root_id=ROOT_ID)
     count = 0
 
     container_file: FileMeta = None
@@ -29,6 +29,7 @@ class SandboxTextCase(unittest.TestCase):
 
     def setUp(self):
         self.__class__.count += 1
+        # print('Setup')
         self.client.rm_by_path_if_exist(self.container_path)
         self.container_file = self.client.get_or_create_folder_by_path(
             self.container_path)
@@ -38,7 +39,8 @@ class SandboxTextCase(unittest.TestCase):
 
     def __init__(self, methodName):
         super().__init__(methodName)
-        self.client.connect('credentials.json')
+        if not self.client.is_connected:
+            self.client.connect(CREDENTIALS_PATH)
 
 
 class FileTools():

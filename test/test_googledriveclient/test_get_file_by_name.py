@@ -1,17 +1,17 @@
 import os
 import unittest
-from test import ROOT_ID
+from test import CREDENTIALS_PATH, ROOT_ID
 
-from googledriverclient import GoogleDriverClient
+from googledriveclient import GoogleDriveClient
 
 
 class TestGetFileByName(unittest.TestCase):
 
-    client = GoogleDriverClient(root_id=ROOT_ID)
+    client = GoogleDriveClient(root_id=ROOT_ID)
 
     def __init__(self, methodName):
         super().__init__(methodName)
-        self.client.connect('credentials.json')
+        self.client.connect(CREDENTIALS_PATH)
 
     def test_with_no_parent(self):
         file_name = 'test_with_no_parent'

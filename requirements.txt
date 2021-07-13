@@ -2,6 +2,7 @@ autopep8==1.5.7
 cachetools==4.2.2
 certifi==2021.5.30
 chardet==4.0.0
+checksumdir==1.2.0
 google-api-core==1.30.0
 google-api-python-client==2.11.0
 google-auth==1.32.1

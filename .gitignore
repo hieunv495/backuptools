@@ -1,7 +1,8 @@
 # This project ignore
+tmp
 tmp-files
-resources-test
-backups-test
+credentials
+test/local_config.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

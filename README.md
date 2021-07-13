@@ -16,6 +16,8 @@ pip install backuptools
 
 ## Create config file
 
+1. Create and download google account service json file **credentials.json** for **google drive service**
+
 Create `config.json` with content:
 
 ```json
@@ -130,3 +132,5 @@ CREDENTIALS_PATH = 'credentials/credentials.json'
 ```
 ./test.sh
 ```
+
+## h

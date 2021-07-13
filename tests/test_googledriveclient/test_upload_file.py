@@ -1,11 +1,11 @@
 import os
 import unittest
 from os import path
-from test.utils import FileTools, SandboxTextCase, TmpFile
 
-from googledriveclient import GoogleDriveClient
-from type import (FileExistedException, FileMeta, FileNotFoundException,
-                  ParentNotFoundException)
+from src.googledriveclient import GoogleDriveClient
+from src.type import (FileExistedException, FileMeta, FileNotFoundException,
+                      ParentNotFoundException)
+from tests.utils import FileTools, SandboxTextCase, TmpFile
 
 
 class TestUploadFile(SandboxTextCase):

@@ -12,8 +12,8 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 
-from type import (FileExistedException, FileMeta, FileNotFoundException,
-                  ParentNotFoundException)
+from .type import (FileExistedException, FileMeta, FileNotFoundException,
+                   ParentNotFoundException)
 
 '''
 https://developers.google.com/resources/api-libraries/documentation/drive/v3/python/latest/drive_v3.files.html

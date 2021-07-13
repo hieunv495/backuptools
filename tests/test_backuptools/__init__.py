@@ -2,12 +2,12 @@ import os
 import pprint
 import shutil
 import unittest
-from test import CREDENTIALS_PATH, ROOT_ID
-from test.utils import FileTools
 
-from backuptools import BackupTools
 from checksumdir import dirhash
-from googledriveclient import GoogleDriveClient
+from src.backuptools import BackupTools
+from src.googledriveclient import GoogleDriveClient
+from tests import CREDENTIALS_PATH, ROOT_ID
+from tests.utils import FileTools
 
 
 class TestBackupTools(unittest.TestCase):

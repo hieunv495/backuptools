@@ -2,6 +2,7 @@
   "cSpell.words": [
     "backuptools",
     "creds",
+    "setuptools",
     "urandom"
   ],
   "python.pythonPath": "./env/bin/python"

@@ -1,11 +1,11 @@
 import unittest
 from os import path
-from test import ROOT_ID
-from test.utils import SandboxTextCase, TmpFile
 
-from googledriveclient import GoogleDriveClient
-from type import (FileExistedException, FileMeta, FileNotFoundException,
-                  ParentNotFoundException)
+from src.googledriveclient import GoogleDriveClient
+from src.type import (FileExistedException, FileMeta, FileNotFoundException,
+                      ParentNotFoundException)
+from tests import ROOT_ID
+from tests.utils import SandboxTextCase, TmpFile
 
 
 class TestDownloadFileByPath(SandboxTextCase):

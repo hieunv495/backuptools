@@ -1,7 +1,7 @@
 import unittest
-from test import CREDENTIALS_PATH, ROOT_ID
 
-from googledriveclient import GoogleDriveClient
+from src.googledriveclient import GoogleDriveClient
+from tests import CREDENTIALS_PATH, ROOT_ID
 
 
 class TestGetFileById(unittest.TestCase):

@@ -2,12 +2,13 @@ import os
 import unittest
 from contextlib import contextmanager
 from os import path
-from test import CREDENTIALS_PATH, ROOT_ID
 from typing import Generator, Iterator, Optional
 
-from googledriveclient import GoogleDriveClient
-from type import (FileExistedException, FileMeta, FileNotFoundException,
-                  ParentNotFoundException)
+from src.googledriveclient import GoogleDriveClient
+from src.type import (FileExistedException, FileMeta, FileNotFoundException,
+                      ParentNotFoundException)
+
+from tests import CREDENTIALS_PATH, ROOT_ID
 
 
 class SandboxTextCase(unittest.TestCase):

@@ -7,7 +7,7 @@ import tarfile
 from abc import ABC, abstractmethod
 from typing import List
 
-from googledriveclient import GoogleDriveClient
+from .googledriveclient import GoogleDriveClient
 
 
 class BackupResource(ABC):

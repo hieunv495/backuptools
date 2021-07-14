@@ -1,9 +1,4 @@
 {
-  "cSpell.words": [
-    "backuptools",
-    "creds",
-    "setuptools",
-    "urandom"
-  ],
-  "python.pythonPath": "./env/bin/python"
+  "cSpell.words": ["backuptools", "creds", "pipenv", "setuptools", "urandom"],
+  "python.pythonPath": "/home/hieunv495/.local/share/virtualenvs/backup-tools-RkOBJzNF/bin/python"
 }

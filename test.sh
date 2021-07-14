@@ -1,1 +1,2 @@
-python3.6 -m unittest -v $@
+echo $@
+pipenv run python -m unittest -v $@

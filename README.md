@@ -102,18 +102,13 @@ python -m backuptools <path/to/config.json> <resource> remove_drive_version <ver
 
 ## Prerequisites
 
+- Install python >= 3.6
+- Install pipenv
+
+Run this command line
+
 ```bash
-sudo apt-get install python3-venv
-pip3 install virtualenv
-virtualenv .env
-source .env/bin/activate
-pip install requirements.txt
-```
-
-### Install packages
-
-```
-pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+pipenv install
 ```
 
 ## Test
@@ -135,6 +130,10 @@ CREDENTIALS_PATH = 'credentials/credentials.json'
 ```
 
 ## Build
+
+```
+pipenv
+```
 
 ```bash
 python3 -m pip install --upgrade build

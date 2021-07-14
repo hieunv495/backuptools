@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+google-api-python-client = "*"
+google-auth-httplib2 = "*"
+google-auth-oauthlib = "*"
+python-magic = "*"
+checksumdir = "*"
+backuptools = {editable = true, path = "."}
+
+[dev-packages]
+autopep8 = "*"
+build = "*"
+
+[requires]
+python_version = "3.6"

@@ -103,6 +103,7 @@ python -m backuptools <path/to/config.json> <resource> remove_drive_version <ver
 ## Prerequisites
 
 ```bash
+sudo apt-get install python3-venv
 pip3 install virtualenv
 virtualenv .env
 source .env/bin/activate
@@ -133,4 +134,12 @@ CREDENTIALS_PATH = 'credentials/credentials.json'
 ./test.sh
 ```
 
-## h
+## Build
+
+```bash
+python3 -m pip install --upgrade build
+```
+
+```
+python3 -m build
+```

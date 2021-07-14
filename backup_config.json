@@ -1,14 +1,14 @@
 {
-  "drive_credentials": "credentials.json",
+  "drive_credentials": "credentials/credentials.json",
   "drive_root_id": "1rbi0gr7yMAFKqEgx-pBp6kKJx1Z4Tcgm",
   "resources": [
     {
       "type": "GoogleDriveBackupResource",
-      "name": "test-app-mongo",
+      "name": "test-resource",
       "args": {
-        "local_resource_path": "./resources-test/test-app/mongo",
-        "local_backup_folder_path": "./backups-test/test-app/mongo",
-        "drive_backup_folder_path": "backups/test-app/mongo"
+        "local_resource_path": "./tmp/resources/test-resource",
+        "local_backup_folder_path": "./tmp/backups/test-resource",
+        "drive_backup_folder_path": "backups/test-resource"
       }
     }
   ]
